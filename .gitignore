@@ -3,3 +3,4 @@
 data/raw/*.csv
 data/processed/*.csv
 __pycache__/
+data/kaggle/*.csv
