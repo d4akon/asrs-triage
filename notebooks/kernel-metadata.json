@@ -1,0 +1,15 @@
+{
+  "id": "d4akon/train-kaggle",
+  "title": "train_kaggle",
+  "code_file": "train_kaggle.ipynb",
+  "language": "python",
+  "kernel_type": "notebook",
+  "is_private": true,
+  "enable_gpu": true,
+  "enable_internet": true,
+  "dataset_sources": [
+    "d4akon/asrs-triage-splits"
+  ],
+  "competition_sources": [],
+  "kernel_sources": []
+}
