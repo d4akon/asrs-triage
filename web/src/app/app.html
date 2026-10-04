@@ -1,0 +1,58 @@
+<main class="page">
+  <header>
+    <h1>ASRS triage</h1>
+    <p class="subtitle">
+      Paste an aviation safety report narrative and see which event types and which underlying
+      cause the model assigns to it.
+    </p>
+  </header>
+
+  <section class="input" aria-labelledby="report-label">
+    <label id="report-label" for="report">Report narrative</label>
+    <textarea
+      id="report"
+      rows="10"
+      placeholder="Describe what happened..."
+      [value]="text()"
+      (input)="onInput($event)"
+    ></textarea>
+    <div class="input-footer">
+      <div class="examples">
+        <span>Try an example:</span>
+        @for (example of examples; track example.title) {
+          <button type="button" class="example" (click)="useExample(example)">
+            {{ example.title }}
+          </button>
+        }
+      </div>
+      <button type="button" class="submit" [disabled]="!canSubmit()" (click)="submit()">
+        {{ loading() ? 'Classifying...' : 'Classify report' }}
+      </button>
+    </div>
+    @if (text().trim().length > 0 && text().trim().length < minLength) {
+      <p class="hint">Enter at least {{ minLength }} characters.</p>
+    }
+  </section>
+
+  @if (error(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  @if (result(); as response) {
+    <section class="results" aria-live="polite">
+      <div class="panel">
+        <h2>Event type <small>(Anomaly, several can apply)</small></h2>
+        <app-score-list [items]="response.anomaly" />
+      </div>
+      <div class="panel">
+        <h2>Likely cause <small>(Primary problem, one applies)</small></h2>
+        <app-score-list [items]="response.primary_problem" />
+      </div>
+      <p class="note">
+        Model: {{ response.model }}. Percentages are relative scores, not calibrated
+        probabilities. ASRS reports are self-reported and unverified, so results describe
+        reports, not confirmed incidents. Research demo, not for operational use.
+      </p>
+    </section>
+  }
+</main>
