@@ -4,6 +4,7 @@ import pandas as pd
 
 SRC = Path("data/processed/asrs_combined.csv")
 DST = Path("data/processed/asrs_clean.csv")
+MIN_MONTH_RECORDS = 20
 
 
 def build_text(row: pd.Series) -> str:
@@ -25,7 +26,11 @@ def main() -> None:
         }
     )
     keep = (out["text"].str.len() > 0) & out["anomaly"].notna() & out["date"].notna()
-    out = out[keep].reset_index(drop=True)
+    out = out[keep]
+    month_size = out["date"].map(out["date"].value_counts())
+    stray = month_size < MIN_MONTH_RECORDS
+    print(f"dropping {int(stray.sum())} records from sparse months: {sorted(out.loc[stray, 'date'].unique())}")
+    out = out[~stray].reset_index(drop=True)
     out.to_csv(DST, index=False)
     print(f"{len(df)} -> {len(out)} rows, wrote {DST}")
 
