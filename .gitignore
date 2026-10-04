@@ -2,5 +2,8 @@
 .env
 data/raw/*.csv
 data/processed/*.csv
-__pycache__/
 data/kaggle/*.csv
+__pycache__/
+.DS_Store
+kaggle_out/
+notebooks/train_kaggle.ipynb
