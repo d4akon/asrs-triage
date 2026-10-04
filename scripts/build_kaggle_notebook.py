@@ -18,7 +18,7 @@ def main() -> None:
         "print(data_dir, torch.cuda.is_available(), "
         "torch.cuda.get_device_name(0) if torch.cuda.is_available() else 'no GPU')"
     )
-    cells.append("!python scripts/train_transformer.py --data-dir {data_dir} --out-dir /kaggle/working/transformer")
+    cells.append("!python scripts/train_transformer.py --data-dir {data_dir} --out-dir /kaggle/working/transformer --epochs 6")
     cells.append(
         "import json\n"
         "print(json.dumps(json.load(open('/kaggle/working/transformer/metrics.json'))['history'], indent=2))"
