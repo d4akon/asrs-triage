@@ -86,6 +86,7 @@ def main() -> None:
     plt.close(fig)
 
     per_report = pd.Series(y.sum(axis=1)).groupby(months.values).mean()
+    pd.DataFrame({"reports": counts, "labels_per_report": per_report}).to_csv(OUT / "monthly_summary.csv")
     fig, ax = plt.subplots(figsize=(9, 3))
     ax.plot(x, per_report.to_numpy())
     ax.set(title="Mean number of anomaly labels per report", ylabel="labels per report")

@@ -1,0 +1,14 @@
+{
+  "anomaly": {
+    "ece_before": 0.22385035368319897,
+    "ece_after": 0.01608479975316161,
+    "brier_before": 0.08217430961988191,
+    "brier_after": 0.031104036765455232
+  },
+  "primary_problem": {
+    "ece_before": 0.4957167353076737,
+    "ece_after": 0.018929220939279623,
+    "log_loss_before": 2.1975507942987424,
+    "log_loss_after": 1.1908967346414836
+  }
+}
