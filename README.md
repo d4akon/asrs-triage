@@ -51,16 +51,10 @@ The transformer needs a GPU: `python scripts/build_kaggle_notebook.py`, upload `
 ## Run the demo
 
 ```bash
-python scripts/export_baseline.py
-pip install -r api/requirements.txt
-uvicorn api.main:app --port 8000
+./run_demo.sh
 ```
 
-```bash
-cd web && npm install && npm start
-```
-
-Open http://localhost:4200. The API reads `MODEL_PATH` and `ALLOWED_ORIGINS` from the environment. Scores are squashed SVM margins, not calibrated probabilities.
+Starts the API on port 8000 and the client on port 4200 (open http://localhost:4200); Ctrl+C stops both. It builds the baseline model on first run and runs `npm install` if needed. The API reads `MODEL_PATH` and `ALLOWED_ORIGINS` from the environment. Scores are squashed SVM margins, not calibrated probabilities.
 
 ## Limits
 

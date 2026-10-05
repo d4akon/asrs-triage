@@ -35,12 +35,10 @@ Out-of-fold predictions for all reports, monthly label shares, change-point dete
 - Cross-validation for the trend analysis mixes years, so it understates how badly a past-trained model tracks future drift.
 - The demo's scores are squashed SVM margins, not calibrated probabilities.
 
-## Decisions and questions
-1. **Demo scope.** Local only, as agreed. Hosting is not planned.
-2. **Emphasis.** Research and engineering both. Suggested split: research carries the thesis (baseline against transformer, error analysis, trends); the demo is shown as a validated engineering artifact.
-3. **Is the negative transformer result acceptable as the central finding?** If a stronger transformer comparison is wanted, the next step is ablations (head+tail truncation first, since 24% of reports are truncated) at about 2.5 GPU hours per run.
-4. **More data?** Adding 2022-2024 exports would reach the 30k floor and test whether the coding shift continues.
-5. **Optional scope** (Section 12 of the plan, ATC speech) is not started.
+## Scope decisions
+- **Demo:** local only, started with `./run_demo.sh`.
+- **Emphasis:** research (baseline against transformer, error analysis, trends) and engineering (the demo).
+- **Not done, by choice:** ablations, more years of data, a long-context model, ATC speech, hosting. Each is a clear next step and would take about 2.5 GPU hours per transformer run, or manual exports for more data.
 
 ## Where everything is
 Code and results in the repository `asrs-triage`; tables in `results/tables.md`; full analyses in `results/error_analysis.md` and `results/step6_findings.md`; figures in `results/trends/` and `results/topics/`.
