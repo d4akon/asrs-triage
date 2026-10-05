@@ -1,0 +1,210 @@
+{
+  "config": {
+    "data_dir": "/kaggle/input/datasets/d4akon/asrs-triage-splits",
+    "out_dir": "/kaggle/working/transformer",
+    "model": "microsoft/deberta-v3-base",
+    "max_len": 512,
+    "epochs": 10,
+    "batch_size": 16,
+    "lr": 0.0002,
+    "head_lr": 0.001
+  },
+  "history": [
+    {
+      "epoch": 1,
+      "train_loss": 3.0674213724038037,
+      "threshold": 0.15000000000000002,
+      "val_anomaly_macro_f1": 0.1335334401116277,
+      "val_problem_macro_f1": 0.08859131746372241
+    },
+    {
+      "epoch": 2,
+      "train_loss": 2.6143107844382216,
+      "threshold": 0.2,
+      "val_anomaly_macro_f1": 0.2078557206006638,
+      "val_problem_macro_f1": 0.11811134931689743
+    },
+    {
+      "epoch": 3,
+      "train_loss": 2.319111286160053,
+      "threshold": 0.4,
+      "val_anomaly_macro_f1": 0.25505221034567227,
+      "val_problem_macro_f1": 0.192674913600704
+    },
+    {
+      "epoch": 4,
+      "train_loss": 2.0545246744483605,
+      "threshold": 0.5,
+      "val_anomaly_macro_f1": 0.31573279555613565,
+      "val_problem_macro_f1": 0.2362938084263419
+    },
+    {
+      "epoch": 5,
+      "train_loss": 1.8288123218464278,
+      "threshold": 0.45,
+      "val_anomaly_macro_f1": 0.34236217323208634,
+      "val_problem_macro_f1": 0.258139117775049
+    },
+    {
+      "epoch": 6,
+      "train_loss": 1.622199169753753,
+      "threshold": 0.5,
+      "val_anomaly_macro_f1": 0.35083655792338625,
+      "val_problem_macro_f1": 0.2578869403394157
+    },
+    {
+      "epoch": 7,
+      "train_loss": 1.457653024966774,
+      "threshold": 0.5,
+      "val_anomaly_macro_f1": 0.37567718222119756,
+      "val_problem_macro_f1": 0.24497451653743313
+    },
+    {
+      "epoch": 8,
+      "train_loss": 1.2765837582116275,
+      "threshold": 0.45,
+      "val_anomaly_macro_f1": 0.3650674780458227,
+      "val_problem_macro_f1": 0.2779784184937081
+    },
+    {
+      "epoch": 9,
+      "train_loss": 1.1335060264646393,
+      "threshold": 0.45,
+      "val_anomaly_macro_f1": 0.3751641761268086,
+      "val_problem_macro_f1": 0.28671256885288887
+    },
+    {
+      "epoch": 10,
+      "train_loss": 1.0416994028279871,
+      "threshold": 0.5,
+      "val_anomaly_macro_f1": 0.3718433955140531,
+      "val_problem_macro_f1": 0.3035743894535743
+    }
+  ],
+  "test": {
+    "anomaly": {
+      "macro_f1": 0.3852281392378004,
+      "micro_f1": 0.5153609831029186,
+      "hamming_loss": 0.06923414527101163,
+      "per_label_f1": {
+        "ATC Issue All Types": 0.5766871165644172,
+        "Aircraft Equipment Problem Critical": 0.6820809248554913,
+        "Aircraft Equipment Problem Less Severe": 0.5,
+        "Airspace Violation All Types": 0.05714285714285714,
+        "Conflict Airborne Conflict": 0.3673469387755102,
+        "Conflict Ground Conflict": 0.6764705882352942,
+        "Conflict NMAC": 0.47058823529411764,
+        "Critical": 0.6785714285714286,
+        "Deviation - Altitude Crossing Restriction Not Met": 0.2857142857142857,
+        "Deviation - Altitude Excursion From Assigned Altitude": 0.2,
+        "Deviation - Altitude Overshoot": 0.25806451612903225,
+        "Deviation - Altitude Undershoot": 0.13333333333333333,
+        "Deviation - Speed All Types": 0.14285714285714285,
+        "Deviation - Track / Heading All Types": 0.3888888888888889,
+        "Deviation / Discrepancy - Procedural Clearance": 0.5543478260869565,
+        "Deviation / Discrepancy - Procedural FAR": 0.058823529411764705,
+        "Deviation / Discrepancy - Procedural Hazardous Material Violation": 0.7368421052631579,
+        "Deviation / Discrepancy - Procedural MEL / CDL": 0.5517241379310345,
+        "Deviation / Discrepancy - Procedural Maintenance": 0.5151515151515151,
+        "Deviation / Discrepancy - Procedural Other / Unknown": 0.0,
+        "Deviation / Discrepancy - Procedural Published Material / Policy": 0.625,
+        "Deviation / Discrepancy - Procedural Security": 0.0,
+        "Deviation / Discrepancy - Procedural Weight And Balance": 0.16666666666666666,
+        "Flight Deck / Cabin / Aircraft Event Illness / Injury": 0.5581395348837209,
+        "Flight Deck / Cabin / Aircraft Event Other / Unknown": 0.0,
+        "Flight Deck / Cabin / Aircraft Event Passenger Misconduct": 0.18181818181818182,
+        "Flight Deck / Cabin / Aircraft Event Smoke / Fire / Fumes / Odor": 0.8031496062992126,
+        "Ground Event / Encounter Ground Strike - Aircraft": 0.3333333333333333,
+        "Ground Event / Encounter Loss Of Aircraft Control": 0.5625,
+        "Ground Event / Encounter Object": 0.0,
+        "Ground Event / Encounter Other / Unknown": 0.3076923076923077,
+        "Ground Excursion Runway": 0.6666666666666666,
+        "Ground Incursion Runway": 0.32432432432432434,
+        "Ground Incursion Taxiway": 0.37037037037037035,
+        "Inflight Event / Encounter CFTT / CFIT": 0.4536082474226804,
+        "Inflight Event / Encounter Fuel Issue": 0.4827586206896552,
+        "Inflight Event / Encounter Loss Of Aircraft Control": 0.37037037037037035,
+        "Inflight Event / Encounter Other / Unknown": 0.0,
+        "Inflight Event / Encounter Unstabilized Approach": 0.5,
+        "Inflight Event / Encounter Wake Vortex Encounter": 0.9629629629629629,
+        "Inflight Event / Encounter Weather / Turbulence": 0.5217391304347826,
+        "Less Severe": 0.15384615384615385
+      },
+      "threshold": 0.5
+    },
+    "primary_problem": {
+      "macro_f1": 0.21575617744635756,
+      "micro_f1": 0.5196304849884527,
+      "hamming_loss": 0.48036951501154734,
+      "per_label_f1": {
+        "0": 0.2222222222222222,
+        "1": 0.805111821086262,
+        "2": 0.4,
+        "3": 0.2857142857142857,
+        "4": 0.0,
+        "5": 0.18181818181818182,
+        "6": 0.20689655172413793,
+        "7": 0.25,
+        "8": 0.0,
+        "9": 0.5172413793103449,
+        "10": 0.0,
+        "11": 0.0,
+        "12": 0.0,
+        "13": 0.0,
+        "14": 0.2988505747126437,
+        "15": 0.0,
+        "16": 0.5
+      }
+    }
+  },
+  "test_anomaly_at_0.5": {
+    "macro_f1": 0.3852281392378004,
+    "micro_f1": 0.5153609831029186,
+    "hamming_loss": 0.06923414527101163,
+    "per_label_f1": {
+      "ATC Issue All Types": 0.5766871165644172,
+      "Aircraft Equipment Problem Critical": 0.6820809248554913,
+      "Aircraft Equipment Problem Less Severe": 0.5,
+      "Airspace Violation All Types": 0.05714285714285714,
+      "Conflict Airborne Conflict": 0.3673469387755102,
+      "Conflict Ground Conflict": 0.6764705882352942,
+      "Conflict NMAC": 0.47058823529411764,
+      "Critical": 0.6785714285714286,
+      "Deviation - Altitude Crossing Restriction Not Met": 0.2857142857142857,
+      "Deviation - Altitude Excursion From Assigned Altitude": 0.2,
+      "Deviation - Altitude Overshoot": 0.25806451612903225,
+      "Deviation - Altitude Undershoot": 0.13333333333333333,
+      "Deviation - Speed All Types": 0.14285714285714285,
+      "Deviation - Track / Heading All Types": 0.3888888888888889,
+      "Deviation / Discrepancy - Procedural Clearance": 0.5543478260869565,
+      "Deviation / Discrepancy - Procedural FAR": 0.058823529411764705,
+      "Deviation / Discrepancy - Procedural Hazardous Material Violation": 0.7368421052631579,
+      "Deviation / Discrepancy - Procedural MEL / CDL": 0.5517241379310345,
+      "Deviation / Discrepancy - Procedural Maintenance": 0.5151515151515151,
+      "Deviation / Discrepancy - Procedural Other / Unknown": 0.0,
+      "Deviation / Discrepancy - Procedural Published Material / Policy": 0.625,
+      "Deviation / Discrepancy - Procedural Security": 0.0,
+      "Deviation / Discrepancy - Procedural Weight And Balance": 0.16666666666666666,
+      "Flight Deck / Cabin / Aircraft Event Illness / Injury": 0.5581395348837209,
+      "Flight Deck / Cabin / Aircraft Event Other / Unknown": 0.0,
+      "Flight Deck / Cabin / Aircraft Event Passenger Misconduct": 0.18181818181818182,
+      "Flight Deck / Cabin / Aircraft Event Smoke / Fire / Fumes / Odor": 0.8031496062992126,
+      "Ground Event / Encounter Ground Strike - Aircraft": 0.3333333333333333,
+      "Ground Event / Encounter Loss Of Aircraft Control": 0.5625,
+      "Ground Event / Encounter Object": 0.0,
+      "Ground Event / Encounter Other / Unknown": 0.3076923076923077,
+      "Ground Excursion Runway": 0.6666666666666666,
+      "Ground Incursion Runway": 0.32432432432432434,
+      "Ground Incursion Taxiway": 0.37037037037037035,
+      "Inflight Event / Encounter CFTT / CFIT": 0.4536082474226804,
+      "Inflight Event / Encounter Fuel Issue": 0.4827586206896552,
+      "Inflight Event / Encounter Loss Of Aircraft Control": 0.37037037037037035,
+      "Inflight Event / Encounter Other / Unknown": 0.0,
+      "Inflight Event / Encounter Unstabilized Approach": 0.5,
+      "Inflight Event / Encounter Wake Vortex Encounter": 0.9629629629629629,
+      "Inflight Event / Encounter Weather / Turbulence": 0.5217391304347826,
+      "Less Severe": 0.15384615384615385
+    },
+    "threshold": 0.5
+  }
+}
