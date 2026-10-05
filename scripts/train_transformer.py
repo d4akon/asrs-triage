@@ -42,8 +42,20 @@ def build_label_spaces(train: pd.DataFrame):
     return anomaly, problem
 
 
-def encode_split(df, tokenizer, anomaly_labels, problem_labels, max_len):
-    enc = tokenizer(list(df["text"]), truncation=True, max_length=max_len)
+def head_tail_encode(tokenizer, texts, max_len, head_tokens):
+    budget = max_len - 2
+    ids = tokenizer(texts, add_special_tokens=False)["input_ids"]
+    kept = [i if len(i) <= budget else i[:head_tokens] + i[-(budget - head_tokens):] for i in ids]
+    input_ids = [[tokenizer.cls_token_id] + i + [tokenizer.sep_token_id] for i in kept]
+    return {"input_ids": input_ids, "attention_mask": [[1] * len(i) for i in input_ids]}
+
+
+def encode_split(df, tokenizer, anomaly_labels, problem_labels, max_len, truncation="head", head_tokens=128):
+    texts = list(df["text"])
+    if truncation == "head_tail":
+        enc = head_tail_encode(tokenizer, texts, max_len, head_tokens)
+    else:
+        enc = tokenizer(texts, truncation=True, max_length=max_len)
     a_index = {l: i for i, l in enumerate(anomaly_labels)}
     p_index = {l: i for i, l in enumerate(problem_labels)}
     anomaly = np.zeros((len(df), len(anomaly_labels)), dtype=np.float32)
@@ -127,6 +139,8 @@ def main() -> None:
     parser.add_argument("--out-dir", default="results/transformer")
     parser.add_argument("--model", default="microsoft/deberta-v3-base")
     parser.add_argument("--max-len", type=int, default=512)
+    parser.add_argument("--truncation", choices=["head", "head_tail"], default="head")
+    parser.add_argument("--head-tokens", type=int, default=128)
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch-size", type=int, default=16)
     parser.add_argument("--lr", type=float, default=2e-4)
@@ -145,7 +159,7 @@ def main() -> None:
     tokenizer = AutoTokenizer.from_pretrained(args.model)
     loaders = {
         n: make_loader(
-            encode_split(df, tokenizer, anomaly_labels, problem_labels, args.max_len),
+            encode_split(df, tokenizer, anomaly_labels, problem_labels, args.max_len, args.truncation, args.head_tokens),
             tokenizer,
             args.batch_size,
             shuffle=(n == "train"),
