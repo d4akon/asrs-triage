@@ -106,8 +106,15 @@ def top_terms(model: dict, features, weights: np.ndarray) -> list[str]:
     # Terms present in the report whose weight pushes this label up, strongest first.
     contribution = features.multiply(weights.reshape(1, -1)).tocsr()
     columns, values = contribution.indices, contribution.data
-    order = np.argsort(values)[::-1][:TERMS_PER_LABEL]
-    return [str(model["feature_names"][columns[i]]) for i in order if values[i] > 0]
+    terms: list[str] = []
+    for i in np.argsort(values)[::-1]:
+        if values[i] <= 0 or len(terms) == TERMS_PER_LABEL:
+            break
+        term = str(model["feature_names"][columns[i]])
+        # a bigram that repeats an already chosen word adds nothing
+        if not any(t in term.split() or term in t.split() for t in terms):
+            terms.append(term)
+    return terms
 
 
 def similar_reports(model: dict, features) -> list[SimilarReport]:
@@ -144,8 +151,10 @@ def predict(request: PredictRequest) -> PredictResponse:
 
     problem_margins = model["problem"].decision_function(features)
     problem_probabilities = model["problem_calibrator"].predict_proba(problem_margins)[0]
-    best = int(np.argmax(problem_margins[0]))
-    top = np.argsort(problem_probabilities)[::-1][:PROBLEM_TOP_K]
+    # Shown in decision order: the margin winner is what the reported macro-F1 measures.
+    # Calibrated probabilities favour common causes, so another cause can show a higher percentage.
+    top = np.argsort(problem_margins[0])[::-1][:PROBLEM_TOP_K]
+    best = int(top[0])
     classes = model["problem"].classes_
     problem = [
         LabelScore(
