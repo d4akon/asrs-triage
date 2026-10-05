@@ -8,3 +8,5 @@ __pycache__/
 kaggle_out/
 notebooks/train_kaggle.ipynb
 models/
+notes/
+results/**/*.npz
