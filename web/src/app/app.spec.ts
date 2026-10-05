@@ -5,15 +5,46 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { App } from './app';
 import { API_URL } from './config';
 import { EXAMPLES } from './examples';
-import { PredictResponse } from './models';
+import { LabelTrends, PredictResponse, TopicTrends } from './models';
 
 const RESPONSE: PredictResponse = {
   model: 'test-model',
   anomaly: [
-    { label: 'Ground Excursion Runway', score: 0.64, predicted: true },
-    { label: 'Aircraft Equipment Problem Critical', score: 0.42, predicted: false },
+    { label: 'Ground Excursion Runway', score: 0.64, predicted: true, terms: ['runway', 'excursion'] },
+    { label: 'Aircraft Equipment Problem Critical', score: 0.42, predicted: false, terms: [] },
   ],
-  primary_problem: [{ label: 'Human Factors', score: 0.12, predicted: true }],
+  primary_problem: [{ label: 'Human Factors', score: 0.12, predicted: true, terms: [] }],
+  similar: [
+    {
+      acn: '1234567',
+      date: '202008',
+      similarity: 0.31,
+      anomaly: ['Ground Excursion Runway'],
+      primary_problem: 'Human Factors',
+      snippet: 'We left the runway surface',
+    },
+  ],
+};
+
+const LABEL_TRENDS: LabelTrends = {
+  months: ['2020-01', '2020-02', '2020-03'],
+  reports: [400, 300, 250],
+  labels_per_report: [2.5, 2.5, 2.6],
+  labels: [
+    {
+      label: 'Conflict NMAC',
+      mean_share: 0.08,
+      tracking_corr: 0.95,
+      true_share: [0.05, 0.06, 0.07],
+      predicted_share: [0.05, 0.06, 0.08],
+      change_points: ['2020-02'],
+    },
+  ],
+};
+
+const TOPIC_TRENDS: TopicTrends = {
+  months: ['2020-01', '2020-02', '2020-03'],
+  topics: [{ topic: 10, words: 'mask, passenger, wearing', count: 431, share: [0, 0, 0.03] }],
 };
 
 describe('App', () => {
@@ -72,6 +103,21 @@ describe('App', () => {
     ]);
     expect(page.querySelectorAll('.badge').length).toBe(2);
     expect(page.textContent).toContain('64%');
+    expect(page.querySelector('.terms')?.textContent).toContain('runway, excursion');
+    expect(page.querySelector('.similar')?.textContent).toContain('ACN 1234567');
+    expect(page.querySelector('.similar')?.textContent).toContain('2020-08');
+  });
+
+  it('shows the trends view with a label chart and a warning when prediction tracks poorly', async () => {
+    page.querySelectorAll<HTMLButtonElement>('.views button')[1].click();
+    await fixture.whenStable();
+    http.expectOne(`${API_URL}/trends/labels`).flush(LABEL_TRENDS);
+    http.expectOne(`${API_URL}/trends/topics`).flush(TOPIC_TRENDS);
+    await fixture.whenStable();
+
+    expect(page.querySelector<HTMLSelectElement>('select')!.value).toBe('Conflict NMAC');
+    expect(page.querySelectorAll('app-line-chart').length).toBe(3);
+    expect(page.querySelector('.muted')?.textContent).toContain('follows this label well');
   });
 
   it('shows an error when the API cannot be reached', async () => {

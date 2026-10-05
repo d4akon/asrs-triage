@@ -1,3 +1,4 @@
+import { DecimalPipe } from '@angular/common';
 import { HttpErrorResponse } from '@angular/common/http';
 import { Component, computed, inject, signal } from '@angular/core';
 
@@ -6,9 +7,10 @@ import { EXAMPLES, Example } from './examples';
 import { PredictResponse } from './models';
 import { ScoreList } from './score-list';
 import { TriageService } from './triage.service';
+import { Trends } from './trends';
 
 @Component({
-  imports: [ScoreList],
+  imports: [DecimalPipe, ScoreList, Trends],
   selector: 'app-root',
   styleUrl: './app.css',
   templateUrl: './app.html',
@@ -18,6 +20,7 @@ export class App {
 
   protected readonly examples = EXAMPLES;
   protected readonly minLength = MIN_TEXT_LENGTH;
+  protected readonly view = signal<'classify' | 'trends'>('classify');
   protected readonly text = signal('');
   protected readonly loading = signal(false);
   protected readonly error = signal<string | null>(null);

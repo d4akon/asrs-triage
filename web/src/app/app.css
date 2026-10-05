@@ -131,3 +131,67 @@ h2 small {
   color: #52606d;
   font-size: 0.85rem;
 }
+
+.views {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.4rem;
+}
+
+.views button {
+  padding: 0.4rem 1rem;
+  border: 1px solid #bcccdc;
+  border-radius: 999px;
+  background: #fff;
+  color: #243b53;
+  font: inherit;
+  cursor: pointer;
+}
+
+.views button[aria-selected='true'] {
+  border-color: #0f62a8;
+  background: #0f62a8;
+  color: #fff;
+}
+
+.similar {
+  grid-column: 1 / -1;
+}
+
+.similar article {
+  margin-bottom: 1rem;
+  padding-bottom: 0.8rem;
+  border-bottom: 1px solid #e4e9ee;
+}
+
+.similar article:last-child {
+  border-bottom: 0;
+}
+
+.similar header {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+  color: #52606d;
+  font-size: 0.85rem;
+}
+
+.similar article p {
+  margin: 0.3rem 0;
+  color: #3d4852;
+  font-size: 0.9rem;
+}
+
+.tag {
+  display: inline-block;
+  margin: 0 0.3rem 0.3rem 0;
+  padding: 0.05rem 0.5rem;
+  border-radius: 999px;
+  background: #e4effa;
+  color: #0f2a43;
+  font-size: 0.78rem;
+}
+
+.tag.cause {
+  background: #eef0f2;
+}

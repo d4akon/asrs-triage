@@ -16,6 +16,9 @@ import { LabelScore } from './models';
           }
           <span class="score">{{ item.score * 100 | number: '1.0-0' }}%</span>
         </div>
+        @if (item.terms.length > 0) {
+          <div class="terms">because of: {{ item.terms.join(', ') }}</div>
+        }
         <div
           class="bar"
           role="meter"
@@ -58,6 +61,11 @@ import { LabelScore } from './models';
       text-align: right;
       font-variant-numeric: tabular-nums;
       color: #52606d;
+    }
+    .terms {
+      margin-top: 0.15rem;
+      font-size: 0.8rem;
+      color: #7b8794;
     }
     .bar {
       height: 0.5rem;

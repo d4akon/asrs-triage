@@ -48,13 +48,19 @@ python scripts/trends.py && python scripts/topics.py
 
 The transformer needs a GPU: `python scripts/build_kaggle_notebook.py`, upload `data/kaggle` as a Kaggle dataset, then push the notebook (see `notebooks/kernel-metadata.json`). Training takes a few hours on a free Kaggle GPU.
 
+## Demo features
+
+- **Classify a report:** event types and likely cause with calibrated probabilities, the words that drove each score ("because of"), and the three most similar past reports from the 21,633 in the dataset.
+- **Trends 2018-2021:** monthly share of any label with the model's predictions beside the analyst labels, detected change points, an unsupervised topic view (the mask topic shows COVID-19), report volume, and a warning where analysts' labelling changed.
+- **Calibration:** scores are Platt-scaled on the validation split. On the test split the expected calibration error falls from 0.22 to 0.016 (Anomaly) and from 0.50 to 0.019 (Primary Problem); see `results/calibration.json`. The cause shown first is still the margin winner, so its percentage can be lower than another cause's: calibrated probabilities favour common classes and would lower the cause macro-F1 from 0.305 to 0.266.
+
 ## Run the demo
 
 ```bash
 ./run_demo.sh
 ```
 
-Starts the API on port 8000 and the client on port 4200 (open http://localhost:4200); Ctrl+C stops both. It builds the baseline model on first run and runs `npm install` if needed. The API reads `MODEL_PATH` and `ALLOWED_ORIGINS` from the environment. Scores are squashed SVM margins, not calibrated probabilities.
+Starts the API on port 8000 and the client on port 4200 (open http://localhost:4200); Ctrl+C stops both. It builds the baseline model on first run and runs `npm install` if needed. The API reads `MODEL_PATH` and `ALLOWED_ORIGINS` from the environment. The API also serves `/trends/labels` and `/trends/topics` from `results/`, so run `scripts/trends.py` and `scripts/topics.py` first.
 
 ## Limits
 

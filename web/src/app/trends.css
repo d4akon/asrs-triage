@@ -1,0 +1,62 @@
+.card {
+  margin-bottom: 1.2rem;
+  padding: 1.1rem 1.2rem;
+  border: 1px solid #d9e2ec;
+  border-radius: 10px;
+  background: #fff;
+}
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.tabs button {
+  padding: 0.3rem 0.9rem;
+  border: 1px solid #bcccdc;
+  border-radius: 999px;
+  background: #fff;
+  color: #243b53;
+  font: inherit;
+  cursor: pointer;
+}
+.tabs button[aria-selected='true'] {
+  background: #0f62a8;
+  border-color: #0f62a8;
+  color: #fff;
+}
+select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #bcccdc;
+  border-radius: 8px;
+  font: inherit;
+  background: #fff;
+}
+label {
+  display: block;
+  margin-bottom: 0.4rem;
+  font-weight: 600;
+  color: #243b53;
+}
+h2 {
+  margin: 1.2rem 0 0.4rem;
+  font-size: 1.05rem;
+  color: #0f2a43;
+}
+.muted {
+  color: #52606d;
+  font-size: 0.9rem;
+}
+.warn {
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  background: #fff4e0;
+  color: #7a4b00;
+  font-size: 0.9rem;
+}
+.error {
+  padding: 0.8rem 1rem;
+  border-radius: 8px;
+  background: #fde8e8;
+  color: #8a1c1c;
+}

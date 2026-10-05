@@ -5,7 +5,7 @@ A pipeline from raw NASA ASRS exports to trained models and a working demo, on 2
 
 Two models share one evaluation function: a TF-IDF + linear SVM baseline, and DeBERTa-v3-base fine-tuned with LoRA on a free Kaggle GPU (one shared encoder, two heads, class-weighted losses, decision threshold tuned on validation).
 
-A demo runs locally: a FastAPI service serving the baseline and an Angular client with a text area, example reports and a scores panel.
+A demo runs locally: a FastAPI service serving the baseline and an Angular client. It classifies a pasted report with calibrated probabilities, shows the words behind each score and the most similar past reports, and has a Trends page with the label and topic time series.
 
 ## Main results (test set, 3,027 reports)
 
@@ -33,7 +33,7 @@ Out-of-fold predictions for all reports, monthly label shares, change-point dete
 - Only four years (about 21.6k reports), below the plan's 30k floor, so seasonality cannot be separated from trend.
 - Single training runs; no ablations done yet (truncation, sequence length, learning rate, long-context model).
 - Cross-validation for the trend analysis mixes years, so it understates how badly a past-trained model tracks future drift.
-- The demo's scores are squashed SVM margins, not calibrated probabilities.
+- Demo scores are calibrated on the validation split (expected calibration error 0.016 and 0.019 on test), but the cause shown first is the model's decision, which can have a lower probability than another cause.
 
 ## Scope decisions
 - **Demo:** local only, started with `./run_demo.sh`.

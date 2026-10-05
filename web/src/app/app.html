@@ -7,6 +7,18 @@
     </p>
   </header>
 
+  <nav class="views" role="tablist">
+    <button type="button" role="tab" [attr.aria-selected]="view() === 'classify'" (click)="view.set('classify')">
+      Classify a report
+    </button>
+    <button type="button" role="tab" [attr.aria-selected]="view() === 'trends'" (click)="view.set('trends')">
+      Trends 2018-2021
+    </button>
+  </nav>
+
+  @if (view() === 'trends') {
+    <app-trends />
+  } @else {
   <section class="input" aria-labelledby="report-label">
     <label id="report-label" for="report">Report narrative</label>
     <textarea
@@ -48,11 +60,37 @@
         <h2>Likely cause <small>(Primary problem, one applies)</small></h2>
         <app-score-list [items]="response.primary_problem" />
       </div>
+      <div class="panel similar">
+        <h2>Most similar past reports <small>(by wording, from 21,633 ASRS reports)</small></h2>
+        @for (item of response.similar; track item.acn) {
+          <article>
+            <header>
+              <strong>ACN {{ item.acn }}</strong>
+              <span>{{ item.date.slice(0, 4) }}-{{ item.date.slice(4) }}</span>
+              <span>similarity {{ item.similarity * 100 | number: '1.0-0' }}%</span>
+            </header>
+            <p>{{ item.snippet }}...</p>
+            <p class="tags">
+              @for (tag of item.anomaly; track tag) {
+                <span class="tag">{{ tag }}</span>
+              }
+              @if (item.primary_problem) {
+                <span class="tag cause">cause: {{ item.primary_problem }}</span>
+              }
+            </p>
+          </article>
+        }
+      </div>
       <p class="note">
-        Model: {{ response.model }}. Percentages are relative scores, not calibrated
-        probabilities. ASRS reports are self-reported and unverified, so results describe
+        Model: {{ response.model }}. Percentages are probabilities calibrated on held-out
+        validation reports; a label can be marked "predicted" at a low percentage because the
+        model is tuned to catch rare labels. For the cause, the first row is the model's decision; its
+        percentage can be lower than another cause's because calibrated probabilities favour common
+        causes. "Because of" lists the words in your text that
+        raised the score. ASRS reports are self-reported and unverified, so results describe
         reports, not confirmed incidents. Research demo, not for operational use.
       </p>
     </section>
+  }
   }
 </main>

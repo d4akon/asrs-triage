@@ -1,0 +1,90 @@
+@if (error(); as message) {
+  <p class="error" role="alert">{{ message }}</p>
+} @else if (labelData() && topicData()) {
+  <section class="card">
+    <div class="tabs" role="tablist">
+      <button type="button" role="tab" [attr.aria-selected]="mode() === 'labels'" (click)="mode.set('labels')">
+        Event types
+      </button>
+      <button type="button" role="tab" [attr.aria-selected]="mode() === 'topics'" (click)="mode.set('topics')">
+        Topics (unsupervised)
+      </button>
+    </div>
+
+    @if (mode() === 'labels') {
+      <label for="label-pick">Event type (Anomaly label)</label>
+      <select id="label-pick" [value]="selectedLabel()" (change)="pick($event, 'label')">
+        @for (item of labels(); track item.label) {
+          <option [value]="item.label" [selected]="item.label === selectedLabel()">{{ item.label }} ({{ item.mean_share * 100 | number: '1.0-0' }}% of reports)</option>
+        }
+      </select>
+      @if (label(); as current) {
+        <h2>Monthly share of reports</h2>
+        <app-line-chart
+          [title]="'Monthly share of reports labelled ' + current.label"
+          [months]="labelData()!.months"
+          [series]="labelSeries()"
+          [markers]="current.change_points"
+          [band]="covid"
+          [percent]="true"
+        />
+        @if (poorlyTracked()) {
+          <p class="warn">
+            The model follows this label poorly (correlation {{ current.tracking_corr | number: '1.2-2' }} with the
+            analyst labels). Trust the grey line only.
+          </p>
+        } @else {
+          <p class="muted">
+            The model follows this label well (correlation {{ current.tracking_corr | number: '1.2-2' }} between the
+            blue and grey lines).
+          </p>
+        }
+      }
+    } @else {
+      <label for="topic-pick">Topic found without labels (BERTopic)</label>
+      <select id="topic-pick" [value]="selectedTopic()" (change)="pick($event, 'topic')">
+        @for (item of topicData()!.topics; track item.topic) {
+          <option [value]="item.topic" [selected]="item.topic === selectedTopic()">{{ item.words }} ({{ item.count }} reports)</option>
+        }
+      </select>
+      @if (topic(); as current) {
+        <h2>Monthly share of reports</h2>
+        <app-line-chart
+          [title]="'Monthly share of reports in topic ' + current.words"
+          [months]="topicData()!.months"
+          [series]="topicSeries()"
+          [band]="covid"
+          [percent]="true"
+        />
+        <p class="muted">Try the topic starting with "mask": it is absent before March 2020 and peaks in August 2020.</p>
+      }
+    }
+  </section>
+
+  <section class="card">
+    <h2>Reports per month</h2>
+    <app-line-chart
+      title="Reports per month"
+      [months]="labelData()!.months"
+      [series]="volumeSeries()"
+      [band]="covid"
+    />
+    <h2>Labels per report</h2>
+    <app-line-chart
+      title="Mean number of anomaly labels per report"
+      [months]="labelData()!.months"
+      [series]="labelsPerReportSeries()"
+    />
+    <p class="warn">
+      Labels per report jump from about 2.5 to about 3.3 in 2021. This looks like a change in how analysts label
+      reports, not a change in what was reported, so label shares before and after it are not directly comparable.
+    </p>
+  </section>
+
+  <p class="muted">
+    Out-of-fold predictions on 21,633 reports, January 2018 to December 2021. The counts describe reports received by
+    ASRS, not incidents.
+  </p>
+} @else {
+  <p class="muted">Loading trends...</p>
+}
