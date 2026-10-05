@@ -85,6 +85,14 @@ def main() -> None:
     fig.savefig(OUT / "reports_per_month.png", dpi=150)
     plt.close(fig)
 
+    per_report = pd.Series(y.sum(axis=1)).groupby(months.values).mean()
+    fig, ax = plt.subplots(figsize=(9, 3))
+    ax.plot(x, per_report.to_numpy())
+    ax.set(title="Mean number of anomaly labels per report", ylabel="labels per report")
+    fig.tight_layout()
+    fig.savefig(OUT / "labels_per_report.png", dpi=150)
+    plt.close(fig)
+
     top = summary[summary["mean_share"] > 0.03].copy()
     top["abs_change"] = top["pred_change"].abs()
     top = top.nlargest(PLOTTED, "abs_change")
