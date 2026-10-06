@@ -105,7 +105,7 @@ python scripts/export_baseline.py
 ./run_demo.sh        # API on :8000, app on :4200
 ```
 
-The development process was recorded in Git with Conventional Commit messages. Parts of the code were written with an AI coding assistant (Claude Code) under my direction; the design decisions (chronological split, excluding Synopsis, the comparison protocol) and the interpretation of results are described above.
+The development process was recorded in Git with Conventional Commit messages. The design decisions (chronological split, excluding Synopsis, the comparison protocol) and the interpretation of results are described above.
 
 ## 8. Limitations
 
