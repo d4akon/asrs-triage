@@ -8,14 +8,16 @@ A TF-IDF + linear SVM baseline and a fine-tuned DeBERTa-v3 (LoRA) are compared w
 
 ## Results (chronological test split, 3,027 reports)
 
-| Task | Metric | TF-IDF + SVM | DeBERTa-v3 + LoRA |
-|---|---|---|---|
-| Anomaly | macro-F1 | 0.401 | 0.376 |
-| Anomaly | micro-F1 | 0.603 | 0.522 |
-| Primary Problem | macro-F1 | 0.305 | 0.296 |
-| Primary Problem | micro-F1 | 0.639 | 0.602 |
+| Task | Metric | TF-IDF + SVM | DeBERTa-v3 + LoRA (head truncation) | DeBERTa-v3 + LoRA (head+tail) |
+|---|---|---|---|---|
+| Anomaly | macro-F1 | 0.401 | 0.376 | 0.396 |
+| Anomaly | micro-F1 | 0.603 | 0.522 | 0.513 |
+| Primary Problem | macro-F1 | 0.305 | 0.296 | 0.343 |
+| Primary Problem | micro-F1 | 0.639 | 0.602 | 0.626 |
 
-Details: `results/baseline.json`, `results/run7_2018_2021/`, `results/error_analysis.md`, `results/step6_findings.md`.
+Keeping the start and end of long reports (instead of cutting the end) raised the transformer on every macro-F1 measure, and it now beats the baseline on Primary Problem macro-F1 while roughly tying it on Anomaly. The baseline stays ahead on micro-F1. Single runs, one seed each. The Anomaly threshold is tuned on validation (0.7 here); at a fixed 0.5 the head+tail model scores 0.425 macro-F1 on test, which I report but do not use as the headline because it was not chosen in advance.
+
+Details: `results/baseline.json`, `results/run7_2018_2021/`, `results/run8_head_tail/`, `results/error_analysis.md`, `results/step6_findings.md`.
 
 Reports are voluntary and unverified. Every finding describes reports received, not incidents that happened.
 

@@ -5,15 +5,17 @@ import pandas as pd
 
 RESULTS = Path("results")
 RUN = RESULTS / "run7_2018_2021"
+RUN8 = RESULTS / "run8_head_tail"
 
 
 def main() -> None:
     base = json.loads((RESULTS / "baseline.json").read_text())
     run = json.loads((RUN / "metrics.json").read_text())["test"]
+    run8 = json.loads((RUN8 / "metrics.json").read_text())["test"]
     rows = []
     for task, name in [("anomaly", "Anomaly"), ("primary_problem", "Primary Problem")]:
         for metric in ("macro_f1", "micro_f1", "hamming_loss"):
-            rows.append({"task": name, "metric": metric, "tfidf_svm": base[task][metric], "deberta_lora": run[task][metric]})
+            rows.append({"task": name, "metric": metric, "tfidf_svm": base[task][metric], "deberta_lora_head": run[task][metric], "deberta_lora_head_tail": run8[task][metric]})
     overall = pd.DataFrame(rows)
 
     summary = pd.read_csv(RESULTS / "trends" / "label_trend_summary.csv")

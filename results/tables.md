@@ -2,14 +2,14 @@
 
 ## Table 1. Test-set performance (2018-2021, chronological split, 3,027 test reports)
 
-| task            | metric       |   tfidf_svm |   deberta_lora |
-|:----------------|:-------------|------------:|---------------:|
-| Anomaly         | macro_f1     |       0.401 |          0.376 |
-| Anomaly         | micro_f1     |       0.603 |          0.522 |
-| Anomaly         | hamming_loss |       0.04  |          0.052 |
-| Primary Problem | macro_f1     |       0.305 |          0.296 |
-| Primary Problem | micro_f1     |       0.639 |          0.602 |
-| Primary Problem | hamming_loss |       0.361 |          0.398 |
+| task            | metric       |   tfidf_svm |   deberta_lora_head |   deberta_lora_head_tail |
+|:----------------|:-------------|------------:|--------------------:|-------------------------:|
+| Anomaly         | macro_f1     |       0.401 |               0.376 |                    0.396 |
+| Anomaly         | micro_f1     |       0.603 |               0.522 |                    0.513 |
+| Anomaly         | hamming_loss |       0.04  |               0.052 |                    0.047 |
+| Primary Problem | macro_f1     |       0.305 |               0.296 |                    0.343 |
+| Primary Problem | micro_f1     |       0.639 |               0.602 |                    0.626 |
+| Primary Problem | hamming_loss |       0.361 |               0.398 |                    0.374 |
 
 ## Table 2. Label trends: tracking and change (labels above 5% mean share)
 
