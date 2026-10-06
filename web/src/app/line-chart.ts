@@ -118,7 +118,8 @@ export class LineChart {
   }
 
   private format(value: number): string {
-    return this.percent() ? `${Math.round(value * 100)}%` : `${Math.round(value * 10) / 10}`;
+    if (this.percent()) return `${Math.round(value * 100)}%`;
+    return value >= 20 ? `${Math.round(value)}` : `${Math.round(value * 10) / 10}`;
   }
 
   protected readonly lines = computed(() =>
