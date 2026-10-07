@@ -32,7 +32,7 @@ Out-of-fold predictions for all reports, monthly label shares, change-point dete
 ## Limits
 - Only four years (about 21.6k reports), below the plan's 30k floor, so seasonality cannot be separated from trend.
 - Single training runs. One ablation done (truncation); sequence length, learning rate and a long-context model are not.
-- Cross-validation for the trend analysis mixes years, so it understates how badly a past-trained model tracks future drift.
+- Cross-validation for the trend analysis uses random folds. A strictly forward-in-time check (2019-2021, `results/leakage_check.md`) gives the same tracking (median correlation 0.68 against 0.67) with about 30% larger monthly errors.
 - Demo scores are calibrated on the validation split (expected calibration error 0.016 and 0.019 on test), but the cause shown first is the model's decision, which can have a lower probability than another cause.
 
 ## Scope decisions

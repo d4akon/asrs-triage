@@ -54,7 +54,7 @@ Zbiór testowy, 3 027 raportów, podział chronologiczny:
 
 ## 5. Analiza trendów
 
-Każdy raport został oceniony przez model, który go nie widział (5-krotna walidacja krzyżowa), a następnie policzony miesięcznie według etykiety przewidzianej i, dla porównania, rzeczywistej. Punkty zmiany wyznaczono metodą PELT, tematy za pomocą BERTopic (embeddingi zdań, UMAP, HDBSCAN, 25 tematów, bez użycia etykiet).
+Każdy raport został oceniony przez model, który go nie widział (5-krotna walidacja krzyżowa, losowe podziały), a następnie policzony miesięcznie według etykiety przewidzianej i, dla porównania, rzeczywistej. Punkty zmiany wyznaczono metodą PELT, tematy za pomocą BERTopic (embeddingi zdań, UMAP, HDBSCAN, 25 tematów, bez użycia etykiet).
 
 ![Miesięczne udziały etykiet z wykrytymi punktami zmiany](figures/top_label_trends.png)
 
@@ -62,6 +62,8 @@ Każdy raport został oceniony przez model, który go nie widział (5-krotna wal
 - **COVID-19 jest widoczny.** Liczba raportów spada do 244 w kwietniu 2020 i rośnie do 617 w lipcu 2020. Nienadzorowany temat o maskach (`mask, passenger, wearing, face, policy`) nie występuje przed lutym 2020, a w sierpniu 2020 osiąga szczyt 14,7% raportów. Żadna etykieta ASRS nie opisuje tego motywu.
 - **Widoczna jest zmiana w sposobie etykietowania przez analityków.** Liczba etykiet na raport rośnie z około 2,5 do około 3,3 od początku 2021, głównie za sprawą FAR, Published Material, Clearance i Equipment Problem Critical. Prawdopodobnie odzwierciedla to praktykę analityków, a nie to, co zgłaszano, więc udziały etykiet sprzed i po tej zmianie nie są wprost porównywalne. Nie znalazłem dokumentacji tej zmiany; to hipoteza.
 - Kilka skoków (ATC Issue i Weather w kwietniu 2019, Equipment Less Severe w lutym 2020, NMAC w maju 2021) nie ma przyczyny, którą udało mi się zidentyfikować.
+
+**Kontrola wycieku danych.** Podział na zbiór uczący, walidacyjny i testowy jest chronologiczny (uczący 2018-01 do 2020-08, walidacyjny 2020-09 do 2021-04, testowy 2021-05 do 2021-12), bez wspólnych miesięcy, numerów raportów (ACN) ani identycznych tekstów. Ponieważ wykresy trendów korzystają z losowych podziałów, porównanie powtórzono ściśle w czasie (`scripts/leakage_check.py`): mediana korelacji 0,68 wobec 0,67 i około 30% większe błędy miesięcznych udziałów. Analiza tematów w ogóle nie używa etykiet.
 
 ![Tematy z największą zmianą](figures/topic_trends.png)
 
@@ -113,7 +115,7 @@ Przebieg prac jest zapisany w historii Gita (komunikaty w konwencji Conventional
 
 - Tylko cztery lata i około 21,6 tys. raportów (plan zakładał 30 tys. lub więcej); cztery lata nie pozwalają odróżnić sezonowości od trendu.
 - Pojedyncze przebiegi uczenia, jedno ziarno losowe; dotąd jedna ablacja (skracanie tekstu).
-- Przewidywania w analizie trendów pochodzą z walidacji krzyżowej mieszającej lata, więc nie pokazują, jak słabo model wyuczony na przeszłości śledziłby przyszły dryf.
+- Przewidywania w analizie trendów pochodzą z walidacji krzyżowej z losowymi podziałami. Sprawdzenie ściśle w czasie (uczenie na wcześniejszych latach, predykcja 2019, 2020, 2021) dało takie samo odwzorowanie trendów (mediana korelacji 0,68 wobec 0,67), ale o około 30% większe błędy miesięcznych udziałów, więc poziomy są mniej dokładne, niż sugerują wykresy; kształty trendów nie wynikają z wycieku danych.
 - Zmiana w etykietowaniu w 2021 ogranicza porównywanie udziałów etykiet ponad nią.
 - Kalibracja w demie jest dopasowana na jednym podziale z jednego okresu.
 

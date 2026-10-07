@@ -16,7 +16,7 @@ Claims are about *reports received by ASRS*, not about incidents. ASRS is volunt
 ## Limits
 - Only 2018-2021. Four years cannot separate seasonality from trend: no season repeats more than four times.
 - Months have 244-687 reports, so monthly shares of rare labels are noisy.
-- Out-of-fold folds are random, not chronological, so they mix years in training. A model trained only on the past and applied to the future would likely track drift worse than this analysis suggests.
+- The cross-validation folds are random, not chronological, so a month's reports can be scored by a model trained on the same month. `scripts/leakage_check.py` repeats the comparison strictly forward in time (train on earlier years only, predict 2019, 2020, 2021): median tracking correlation 0.68 against 0.67 with random folds, so the shape of the trends does not come from leakage, but the mean absolute error of the monthly share is about 30% larger (0.0097 against 0.0075). The train/validation/test split used for the classification results is chronological, with no shared months, ACNs or identical texts (`results/leakage_check.md`).
 - The change-point penalty is a judgement call; points were not tuned, but different penalties give different counts.
 - External-event matching is limited to COVID-19, which matches. Other points are reported without causes.
 

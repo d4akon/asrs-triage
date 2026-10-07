@@ -66,4 +66,4 @@ Starts the API on port 8000 and the client on port 4200 (open http://localhost:4
 
 ## Limits
 
-Only 2018-2021 is included (about 21.6k reports). Analysts appear to assign more labels per report from 2021, which shifts label shares; see `results/step6_findings.md`.
+Only 2018-2021 is included (about 21.6k reports). Analysts appear to assign more labels per report from 2021, which shifts label shares; see `results/step6_findings.md`. The train/validation/test split is chronological; the trend plots use random cross-validation folds, which a forward-in-time check (`scripts/leakage_check.py`, `results/leakage_check.md`) shows changes the tracking correlation by about 0.01 but makes monthly errors about 30% larger.

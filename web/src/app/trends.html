@@ -82,8 +82,10 @@
   </section>
 
   <p class="muted">
-    Out-of-fold predictions on 21,633 reports, January 2018 to December 2021. The counts describe reports received by
-    ASRS, not incidents.
+    Predictions on 21,633 reports, January 2018 to December 2021, from 5-fold cross-validation: each report is scored by
+    a model that did not see it, but folds are random, not in time order. A strictly forward-in-time check for 2019 to
+    2021 gave the same tracking (median correlation 0.68 against 0.67) with about 30% larger monthly errors. The topic
+    view uses no labels. The counts describe reports received by ASRS, not incidents.
   </p>
 } @else {
   <p class="muted">Loading trends...</p>

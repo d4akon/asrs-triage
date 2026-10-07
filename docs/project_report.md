@@ -54,7 +54,7 @@ Test split, 3,027 reports, chronological:
 
 ## 5. Trend analysis
 
-Each report was scored by a model that had not seen it (5-fold cross-validation), then counted per month by predicted label and, for comparison, by true label. Change points were found with PELT; topics with BERTopic (sentence embeddings, UMAP, HDBSCAN, 25 topics, no labels used).
+Each report was scored by a model that had not seen it (5-fold cross-validation, random folds), then counted per month by predicted label and, for comparison, by true label. Change points were found with PELT; topics with BERTopic (sentence embeddings, UMAP, HDBSCAN, 25 topics, no labels used).
 
 ![Monthly label shares with detected change points](figures/top_label_trends.png)
 
@@ -62,6 +62,8 @@ Each report was scored by a model that had not seen it (5-fold cross-validation)
 - **COVID-19 is visible.** Report volume falls to 244 in April 2020 and rises to 617 in July 2020. An unsupervised topic about masks (`mask, passenger, wearing, face, policy`) is absent before February 2020 and peaks at 14.7% of reports in August 2020. No ASRS label captures this theme.
 - **A change in analyst labelling is visible.** Labels per report rise from about 2.5 to about 3.3 from early 2021, driven by FAR, Published Material, Clearance and Equipment Problem Critical. This probably reflects analyst practice, not what was reported, so label shares before and after are not directly comparable. No documentation of it was found; it is a hypothesis.
 - Several step changes (ATC Issue and Weather in April 2019, Equipment Less Severe in February 2020, NMAC in May 2021) have no cause I could identify.
+
+**Leakage check.** The train/validation/test split is chronological (training 2018-01 to 2020-08, validation 2020-09 to 2021-04, test 2021-05 to 2021-12) with no shared months, record numbers (ACN) or identical texts. Because the trend plots use random folds, the comparison was repeated strictly forward in time (`scripts/leakage_check.py`): median tracking correlation 0.68 against 0.67, with about 30% larger monthly errors. The topic analysis uses no labels at all.
 
 ![Topics with the largest change](figures/topic_trends.png)
 
@@ -111,7 +113,7 @@ The development process was recorded in Git with Conventional Commit messages. T
 
 - Only four years and about 21.6k reports (the plan targeted 30k or more); four years cannot separate seasonality from trend.
 - Single training runs, one seed; only one ablation (truncation) so far.
-- The cross-validated trend predictions mix years in training, so they understate how badly a model trained on the past would track future drift.
+- The trend predictions use random cross-validation folds. A strictly forward-in-time check (train on earlier years, predict 2019, 2020, 2021) gave the same tracking (median correlation 0.68 against 0.67) but about 30% larger errors in the monthly shares, so levels are less exact than the plots suggest; the shapes are not a leakage artefact.
 - The labelling shift in 2021 limits comparisons of label shares across it.
 - The demo's calibration is fitted on one split of one period.
 
